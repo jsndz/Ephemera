@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### Color.me:
 
-## Getting Started
+1. **Primary Red**
 
-First, run the development server:
+   - **HEX**: #EA3A36
+   - **RGB**: 234, 58, 54
+   - **CMYK**: 0, 75, 77, 8
+   - **Pantone**: 17-1558
+   - **Usage**:
+     - Business name text
+     - Slogan text
+     - Call-to-action buttons
+     - Links and accents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. **Vibrant Orange**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   - **HEX**: #F27D2C
+   - **RGB**: 242, 125, 44
+   - **CMYK**: 0, 48, 82, 5
+   - **Pantone**: 16-1257
+   - **Usage**:
+     - Icons
+     - Highlights
+     - Secondary buttons or hover states for primary buttons
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **Pure White**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+   - **HEX**: #FFFFFF
+   - **RGB**: 255, 255, 255
+   - **CMYK**: 0, 0, 0, 0
+   - **Pantone**: 11-0601
+   - **Usage**:
+     - Main background of the webpage
 
-## Learn More
+4. **Soft Blue**
 
-To learn more about Next.js, take a look at the following resources:
+   - **HEX**: #B2BBDA
+   - **RGB**: 178, 187, 218
+   - **CMYK**: 18, 14, 0, 15
+   - **Pantone**: 14-3949
+   - **Usage**:
+     - Background for sections
+     - Background for cards or containers
+     - Footer background
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. **Light Beige**
+   - **HEX**: #E8E7D5
+   - **RGB**: 232, 231, 213
+   - **CMYK**: 0, 0, 8, 9
+   - **Pantone**: 11-0106
+   - **Usage**:
+     - Text backgrounds
+     - Navigation bar background
+     - Forms or input fields background
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# Summary of Color Usage on Webpage
 
-## Deploy on Vercel
+- **Primary Red**: Use for business name, slogan, call-to-action buttons, links, and accents.
+- **Vibrant Orange**: Use for icons, highlights, secondary buttons, or hover states for primary buttons.
+- **Pure White**: Use as the main background color of the webpage.
+- **Soft Blue**: Use for section backgrounds, cards or containers, and footer background.
+- **Light Beige**: Use for text backgrounds, navigation bar background, forms, or input fields background.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+These color names and placements will help create a user-friendly and visually appealing design for our webpage.
