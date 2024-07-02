@@ -1,12 +1,20 @@
 "use client";
 
+import Hero from "@/components/Home/Hero";
 import NavHome from "@/components/Home/NavHome";
+import Info from "@/components/Home/Info";
 import { useDispatch, useSelector } from "react-redux";
+
+import Foot from "@/components/Home/Foot";
 
 export default function Home() {
   const dispatch = useDispatch();
   return (
-    // <main className="flex min-h-screen flex-col items-center justify-between p-24"></main>
-    <NavHome />
+    <div>
+      <NavHome />
+      <Hero />
+      <Info />
+      <Foot></Foot>
+    </div>
   );
 }

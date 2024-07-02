@@ -12,6 +12,7 @@ const config: Config = {
         WHITE: "#FFFFFF",
         RED: "#EA3A36",
         ORANGE: "#F27D2C",
+        BEIGE: "#E8E7D5",
       },
     },
   },

@@ -1,13 +1,12 @@
 "use client";
 import Image from "next/image";
-import LogoSvg from "./public/logo.svg";
 import Link from "next/link";
 const NavHome = () => {
   return (
     <div>
       <nav className="relative px-4 py-4 flex justify-between items-center bg-WHITE">
         <Link className="text-3xl font-bold leading-none" href="/">
-          <Image src="logo.svg" alt="Logo" width={100} height={100} />
+          <Image src="logo.svg" alt="Logo" width={200} height={200} />
         </Link>
         <div className="lg:hidden">
           <button className="navbar-burger flex items-center text-RED p-3">
@@ -112,18 +111,18 @@ const NavHome = () => {
             </a>
           </li>
         </ul>
-        <a
+        <Link
           className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200"
-          href="#"
+          href="/login"
         >
           Sign In
-        </a>
-        <a
+        </Link>
+        <Link
           className="hidden lg:inline-block py-2 px-6 bg-RED hover:bg-ORANGE text-sm text-white font-bold rounded-xl transition duration-200"
-          href="#"
+          href="/signup"
         >
           Sign up
-        </a>
+        </Link>
       </nav>
       <div className="navbar-menu relative z-50 hidden">
         <div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25" />
