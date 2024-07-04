@@ -12,3 +12,9 @@ Made a Navbar component for Home Page
 To make home page got inspired from this site : https://www.awwwards.com/websites/ui-design/
 I got the Navbar component from : https://www.freefrontend.com/
 And i modified it
+
+### 02/07/2024 23:37
+
+Finished a basic setup for home page of Ephemera
+Atleast it doesnt look ugly on the first look
+As always i cant make the components so took it from : https://www.freefrontend.com/

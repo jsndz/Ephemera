@@ -5,3 +5,8 @@
 - Typescript
 - esLint
 - TailwindCSS
+
+## Hosting
+
+- Vercel
+- Render
