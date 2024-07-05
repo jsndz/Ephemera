@@ -18,3 +18,10 @@ And i modified it
 Finished a basic setup for home page of Ephemera
 Atleast it doesnt look ugly on the first look
 As always i cant make the components so took it from : https://www.freefrontend.com/
+
+### 06/07/2024 00:56
+
+There should have been a yesterday's log but i ran some random git command and everything vanished to poof
+I integrated typescript and nodejs
+I integrated Nextjs and socket.io to form a basic chat app
+Again chat component was a gift from the developers
