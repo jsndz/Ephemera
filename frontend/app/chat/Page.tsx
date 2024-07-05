@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
   const [roomId, setRoomId] = useState("");
   return (
     <div>
@@ -34,4 +34,4 @@ const page: React.FC = () => {
   );
 };
 
-export default page;
+export default Page;

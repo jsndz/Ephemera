@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useState } from "react";
 
 const Slide = () => {
@@ -19,7 +20,7 @@ const Slide = () => {
           id="song-1"
           className="absolute w-3/5 h-full transform transition-transform duration-300 cursor-pointer"
         >
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1530651788726-1dbf58eeef1f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=882&q=80"
             alt="song"
             className="w-full h-full  object-cover rounded-full shadow-lg"
@@ -30,7 +31,7 @@ const Slide = () => {
           id="song-2"
           className="absolute w-3/5 h-full transform transition-transform duration-300 cursor-pointer"
         >
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1559386484-97dfc0e15539?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
             alt="song"
             className="w-full h-full  object-cover rounded-full shadow-lg"
@@ -41,7 +42,7 @@ const Slide = () => {
           id="song-3"
           className="absolute w-3/5 h-full transform transition-transform duration-300 cursor-pointer"
         >
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1533461502717-83546f485d24?ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60"
             alt="song"
             className="w-full h-full  object-cover rounded-full shadow-lg"
