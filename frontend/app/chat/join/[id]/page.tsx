@@ -1,5 +1,6 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import io, { Socket } from "socket.io-client";
 
@@ -7,23 +8,38 @@ const Page: React.FC = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [inbox, setInbox] = useState<string[]>([]);
   const [message, setMessage] = useState("");
-  let siteUrl: string;
-  process.env.STATE === "development"
-    ? (siteUrl = "http://localhost:3000")
-    : (siteUrl = "");
+
+  const siteUrl =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : "https://ephemera.onrender.com";
+
+  const { id } = useParams();
+
   const handleSendMessage = () => {
-    socket?.emit("message", message);
+    socket?.emit("message", message, id);
   };
 
-  socket?.on("message", (message) => {
-    console.log(message);
-    setInbox([...inbox, message]);
-  });
   useEffect(() => {
+    if (!id) return;
+
     const newSocket = io(siteUrl);
 
+    newSocket.emit("joinRoom", id);
+
+    newSocket.on("message", (message) => {
+      console.log("message", message);
+
+      setInbox((prevInbox) => [...prevInbox, message]);
+    });
+
     setSocket(newSocket);
-  }, [siteUrl]);
+
+    return () => {
+      newSocket.disconnect();
+    };
+  }, [siteUrl, id]);
+  console.log("Current inbox state:", inbox);
 
   return (
     <div className="flex h-screen antialiased text-gray-800">
@@ -46,7 +62,7 @@ const Page: React.FC = () => {
                 />
               </svg>
             </div>
-            <div className="ml-2 font-bold text-2xl">QuickChat</div>
+            <div className="ml-2 font-bold text-2xl">QuickChat {id}</div>
           </div>
           <div className="flex flex-col items-center bg-indigo-100 border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg">
             <div className="h-20 w-20 rounded-full border overflow-hidden">
