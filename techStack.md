@@ -6,6 +6,12 @@
 - esLint
 - TailwindCSS
 
+### Backend
+
+- Typescript
+- Socket.io
+- ExpressJs
+
 ## Hosting
 
 - Vercel

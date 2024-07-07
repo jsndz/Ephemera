@@ -25,3 +25,9 @@ There should have been a yesterday's log but i ran some random git command and e
 I integrated typescript and nodejs
 I integrated Nextjs and socket.io to form a basic chat app
 Again chat component was a gift from the developers
+
+### 07/07/2024 01:10
+
+I added chat room feature to the app.
+Also hosted both frontend and backend.
+Spent a lot of time on setting up .env for Nextjs cause it was giving undefined. Solved it somehow
