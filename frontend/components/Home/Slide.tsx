@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 const Slide = () => {
   return (
-    <div className="w-full max-w-2xl h-96 flex flex-col mt-24 lg:ml-40 items-center justify-center">
+    <div className="w-full max-w-2xl h-96 flex flex-col mt-24 lg:ml-40 items-center justify-center z-50">
       <input
         type="radio"
         name="slider"
@@ -18,7 +18,7 @@ const Slide = () => {
         <label
           htmlFor="item-1"
           id="song-1"
-          className="absolute w-3/5 h-full transform transition-transform duration-300 cursor-pointer"
+          className="absolute w-3/5 h-full transform transition-transform duration-300 cursor-pointer z-50"
         >
           <Image
             src="https://images.unsplash.com/photo-1530651788726-1dbf58eeef1f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=882&q=80"
@@ -31,7 +31,7 @@ const Slide = () => {
         <label
           htmlFor="item-2"
           id="song-2"
-          className="absolute w-3/5 h-full transform transition-transform duration-300 cursor-pointer"
+          className="absolute w-3/5 h-full transform transition-transform duration-300 cursor-pointer z-50"
         >
           <Image
             src="https://images.unsplash.com/photo-1559386484-97dfc0e15539?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
@@ -44,7 +44,7 @@ const Slide = () => {
         <label
           htmlFor="item-3"
           id="song-3"
-          className="absolute w-3/5 h-full transform transition-transform duration-300 cursor-pointer"
+          className="absolute w-3/5 h-full transform transition-transform duration-300 cursor-pointer z-50"
         >
           <Image
             src="https://images.unsplash.com/photo-1533461502717-83546f485d24?ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60"

@@ -1,13 +1,14 @@
 import Image from "next/image";
 import React from "react";
 import Slide from "./Slide";
+import Link from "next/link";
 
 const Hero = () => {
   return (
     <section>
       <div className=" text-black ">
         <div className="container mx-auto flex flex-col md:flex-row items-center  md:mt-24">
-          <div className="flex flex-col w-full lg:w-1/3 justify-center items-start pt-8">
+          <div className="flex flex-col w-full lg:w-1/3 justify-center items-start pt-8 ">
             <h1 className="text-3xl md:text-5xl p-2 text-red-500 tracking-loose">
               Ephemera
             </h1>
@@ -20,12 +21,12 @@ const Hero = () => {
               Create a room ID and start your private communication instantly.
             </p>
 
-            <a
-              href="#"
+            <Link
+              href="/chat"
               className="bg-transparent hover:bg-BEIGE text-RED hover:text-ORANGE rounded shadow hover:shadow-lg py-2 px-4 border border-RED hover:border-transparent"
             >
               Explore Now
-            </a>
+            </Link>
           </div>
           <Slide />
         </div>

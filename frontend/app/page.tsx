@@ -6,6 +6,7 @@ import Info from "@/components/Home/Info";
 import { useDispatch, useSelector } from "react-redux";
 
 import Foot from "@/components/Home/Foot";
+import "./WavyBackgroundPage.css";
 
 export default function Home() {
   const dispatch = useDispatch();

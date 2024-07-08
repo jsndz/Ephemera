@@ -1,0 +1,12 @@
+.bg-lines {
+  position: relative;
+  z-index: -1;
+  background: repeating-linear-gradient(
+    -60deg,
+    #ea3a36,
+    #f27d2c 4px,
+    transparent 4px,
+    transparent 60px
+  );
+  background-size: cover;
+}

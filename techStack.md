@@ -11,6 +11,7 @@
 - Typescript
 - Socket.io
 - ExpressJs
+- Redis(ioredis)
 
 ## Hosting
 
