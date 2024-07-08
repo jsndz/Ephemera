@@ -56,7 +56,7 @@ const Page: React.FC = () => {
               <div className="flex flex-col h-full overflow-x-auto mb-4">
                 <div className="flex flex-col h-full">
                   {error ? (
-                    <div>Room doesn't exist {error}</div>
+                    <div>Room does not exist {error}</div>
                   ) : (
                     <div className="grid grid-cols-12 gap-y-2">
                       {inbox.map((message, index) => {
