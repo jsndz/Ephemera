@@ -1,9 +1,10 @@
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { PORT, STATE, serviceUri } from "./config/serverConfig.js";
+import { PORT, STATE } from "./config/serverConfig.js";
 import cors from "cors";
 import { generateRoomId, pub, sub } from "./redis.js";
+const port = process.env.PORT || 10000;
 let siteUrl =
   STATE === "development"
     ? "http://localhost:3001"
@@ -80,6 +81,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(PORT || 3000, () => {
+server.listen(port, () => {
   console.log(`Server is running at port ${PORT}`);
 });
