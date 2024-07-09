@@ -31,3 +31,17 @@ Again chat component was a gift from the developers
 I added chat room feature to the app.
 Also hosted both frontend and backend.
 Spent a lot of time on setting up .env for Nextjs cause it was giving undefined. Solved it somehow
+
+### 09/07/2024 00:45
+
+I hosted the backend and frontend.
+Yesterday when i hosted i didn't add dist file to the repository. So ofcourse the backend didn't run.
+I corrected it but still some crappy bug has crept up.
+I'll see tomorrow
+
+### 10/07/2024 00:53
+
+I hosting still aint working. So i focused on ENd to end communication and 1v1 chatting.
+For E2E i will do it some other but i got the idea ready.
+For 1v1 i have done half of it but i just cant concentrate.
+Hope everything works well

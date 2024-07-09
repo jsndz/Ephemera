@@ -29,6 +29,11 @@ const Page = () => {
         <button className="button-join lg:inline-block py-2 px-6 bg-RED hover:bg-ORANGE text-sm text-white font-bold rounded-xl transition duration-200">
           <Link href={`/chat/join/${roomId}`}>Join</Link>
         </button>
+        <div>
+          <button className="button-create lg:inline-block py-2 px-6 bg-RED hover:bg-ORANGE text-sm text-white font-bold rounded-xl transition duration-200 ">
+            <Link href="/chat/with"> one-on-one chat</Link>
+          </button>
+        </div>
       </section>
     </div>
   );

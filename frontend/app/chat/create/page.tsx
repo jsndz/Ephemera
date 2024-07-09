@@ -34,9 +34,7 @@ const Page: React.FC = () => {
       </section>
       <section className="bg-WHITE p-8  text-center">
         <h1 className="text-2xl  mb-6">Create a Chat room</h1>
-        <button className="button-create lg:inline-block py-2 px-6 bg-RED hover:bg-ORANGE text-sm text-white font-bold rounded-xl transition duration-200 ">
-          one-on-one chat
-        </button>
+
         <button
           onClick={() => {
             handleGroupChat();

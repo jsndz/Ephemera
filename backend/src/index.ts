@@ -4,7 +4,7 @@ import { Server } from "socket.io";
 import { PORT, STATE } from "./config/serverConfig.js";
 import cors from "cors";
 import { generateRoomId, pub, sub } from "./redis.js";
-const port = process.env.PORT || 10000;
+
 let siteUrl =
   STATE === "development"
     ? "http://localhost:3001"
@@ -39,7 +39,7 @@ sub.on("message", (channel, message) => {
   console.log(`Received message from ${channel}: ${message}`);
 });
 io.on("connection", (socket) => {
-  console.log("A user connected");
+  console.log("A user connected", socket.id);
   socket.on("createRoom", async () => {
     let roomId;
     let roomExists = true;
@@ -68,7 +68,29 @@ io.on("connection", (socket) => {
       io.to(roomId).emit("message", message);
     });
   });
-
+  socket.on("register", async () => {
+    let userId;
+    let userExists = true;
+    do {
+      userId = generateRoomId();
+      let userExistsResult = await pub.sismember(`${userId}`, socket.id);
+      userExists = userExistsResult === 1;
+    } while (userExists);
+    await pub.sadd(`${userId}`, socket.id);
+    console.log(`User ${userId} registered with socket ID ${socket.id}`);
+    socket.emit("getUserId", userId);
+  });
+  // socket.on("getUserSocket", {});
+  socket.on("message1v1", async ({ recipientId, message }) => {
+    console.log(`Message from ${socket.id} to ${recipientId}: ${message}`);
+    const recipientSocketId = await pub.get(recipientId);
+    if (recipientSocketId) {
+      io.to(recipientSocketId).emit("messageRecipient", message);
+    } else {
+      console.log(`User ${recipientId} is not connected`);
+      socket.emit("error", "Invalid Room Id");
+    }
+  });
   socket.on("disconnect", async () => {
     console.log("User disconnected");
     const rooms = await pub.smembers("rooms");
@@ -81,6 +103,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(port, () => {
+server.listen(PORT, () => {
   console.log(`Server is running at port ${PORT}`);
 });
