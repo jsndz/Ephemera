@@ -10,6 +10,8 @@ const Page: React.FC = () => {
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
       : "https://ephemera.onrender.com";
+  console.log("siteUrl", siteUrl);
+
   const [socket, setSocket] = useState<Socket | null>(null);
   const [userId, setUserId] = useState<string>("");
   const [inbox, setInbox] = useState<string[]>([]);
@@ -18,17 +20,19 @@ const Page: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     const newSocket = io(siteUrl);
-    setSocket(newSocket);
-    socket?.emit("register");
-    socket?.on("getUserId", (userId) => {
+
+    newSocket?.emit("register");
+    newSocket?.on("getUserId", (userId) => {
       setUserId(userId);
+      console.log(userId);
     });
+    setSocket(newSocket);
     return () => {
       if (newSocket) {
         newSocket.disconnect();
       }
     };
-  }, [siteUrl]);
+  }, []);
 
   socket?.on("messageRecipient", (message) => {
     setInbox((prevInbox) => [...prevInbox, message]);
@@ -39,6 +43,7 @@ const Page: React.FC = () => {
   const handleMessaging = () => {
     socket?.emit("message1v1", { recipientId, message });
   };
+  console.log("userId", userId);
   return (
     <div>
       <section className="flex justify-center items-center bg-WHITE p-8  ">

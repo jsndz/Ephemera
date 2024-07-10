@@ -62,6 +62,7 @@ io.on("connection", (socket) => {
     });
     socket.on("register", async () => {
         let userId;
+        console.log("hi");
         let userExists = true;
         do {
             userId = generateRoomId();
@@ -75,7 +76,7 @@ io.on("connection", (socket) => {
     // socket.on("getUserSocket", {});
     socket.on("message1v1", async ({ recipientId, message }) => {
         console.log(`Message from ${socket.id} to ${recipientId}: ${message}`);
-        const recipientSocketId = await pub.get(recipientId);
+        const recipientSocketId = await pub.smembers(recipientId);
         if (recipientSocketId) {
             io.to(recipientSocketId).emit("messageRecipient", message);
         }
