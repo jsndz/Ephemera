@@ -3,6 +3,10 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import io, { Socket } from "socket.io-client";
+import decrypt from "./E2E/decrypt";
+import encrypt from "./E2E/encrypt";
+import deriveKey from "./E2E/deriveKey";
+import generateKeyPair from "./E2E/generateKeyPair";
 
 const Page: React.FC = () => {
   const router = useRouter();
@@ -17,41 +21,91 @@ const Page: React.FC = () => {
   const [message, setMessage] = useState<string>("");
   const [recipientId, setRecipientId] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
+    // const init = async () => {
+    //   try {
+    //   } catch (e) {
+    //     console.error("Error during initialization:", e);
+    //   }
+    // };
+    // init();
     const newSocket = io(siteUrl);
 
-    newSocket?.emit("register");
-    newSocket?.on("getUserId", (userId) => {
+    newSocket.emit("register");
+    newSocket.on("getUserId", (userId) => {
       setUserId(userId);
-      console.log(userId);
     });
-    newSocket?.on("messageRecipient", (message) => {
-      console.log("message", message);
-      setInbox((prevInbox) => [...prevInbox, message]);
+    newSocket.on("messageRecipient", async ({ encryptedMessage, senderId }) => {
+      await handleMessageReception(encryptedMessage, senderId);
     });
+    newSocket.on("error", (message: string) => {
+      setError(message);
+    });
+
     setSocket(newSocket);
+
     return () => {
       if (newSocket) {
         newSocket.disconnect();
       }
     };
   }, []);
+  const init = async () => {
+    const { publicKeyJwk, privateKeyJwk } = await generateKeyPair();
+    console.log(privateKeyJwk, publicKeyJwk);
 
-  socket?.on("error", (message: string) => {
-    setError(message);
-  });
-  const handleMessaging = () => {
-    socket?.emit("message1v1", { recipientId, message });
+    localStorage.setItem("privateKeyJwk", JSON.stringify(privateKeyJwk));
+    await fetch(`${siteUrl}/api/savePublicKey`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId, publicKeyJwk }),
+    });
   };
-  console.log("U", inbox);
+  init();
+  const handleMessageReception = async (
+    encryptedMessage: string,
+    senderId: string
+  ) => {
+    try {
+      const senderPublicKeyJwk = await fetchPublicKey(senderId);
+      const privateKeyJwk = JSON.parse(localStorage.getItem("privateKeyJwk")!);
+      const sharedKey = await deriveKey(senderPublicKeyJwk, privateKeyJwk);
+      const decryptedMessage = await decrypt(encryptedMessage, sharedKey);
+      setInbox((prevInbox) => [...prevInbox, decryptedMessage]);
+    } catch (e) {
+      console.error("Error decrypting message:", e);
+    }
+  };
+
+  const fetchPublicKey = async (userId: string): Promise<JsonWebKey> => {
+    const response = await fetch(`/api/getPublicKey?userId=${userId}`);
+    const { publicKeyJwk } = await response.json();
+    return publicKeyJwk;
+  };
+
+  const handleMessaging = async () => {
+    try {
+      const recipientPublicKeyJwk = await fetchPublicKey(recipientId);
+      const privateKeyJwk = JSON.parse(localStorage.getItem("privateKeyJwk")!);
+      const sharedKey = await deriveKey(recipientPublicKeyJwk, privateKeyJwk);
+      const encryptedMessage = await encrypt(message, sharedKey);
+      socket?.emit("message1v1", { recipientId, message: encryptedMessage });
+    } catch (e) {
+      console.error("Error sending message:", e);
+    }
+  };
+
   return (
     <div>
-      <section className="flex justify-center items-center bg-WHITE p-8  ">
-        <Image src="/logo.svg" width={500} height={500} alt="Logo"></Image>
+      <section className="flex justify-center items-center bg-WHITE p-8">
+        <Image src="/logo.svg" width={500} height={500} alt="Logo" />
       </section>
       <p>{userId}</p>
-      <section className="bg-WHITE p-8  text-center">
-        <h1 className="text-2xl  mb-6">Enter the ChatId </h1>
+      <section className="bg-WHITE p-8 text-center">
+        <h1 className="text-2xl mb-6">Enter the ChatId </h1>
         <input
           type="text"
           placeholder="Type here"
@@ -69,23 +123,21 @@ const Page: React.FC = () => {
                   <div>Room does not exist {error}</div>
                 ) : (
                   <div className="grid grid-cols-12 gap-y-2">
-                    {inbox.map((message, index) => {
-                      return (
-                        <div
-                          className="col-start-1 col-end-8 p-3 rounded-lg"
-                          key={index}
-                        >
-                          <div className="flex flex-row items-center">
-                            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                              M
-                            </div>
-                            <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                              <div>{message}</div>
-                            </div>
+                    {inbox.map((message, index) => (
+                      <div
+                        className="col-start-1 col-end-8 p-3 rounded-lg"
+                        key={index}
+                      >
+                        <div className="flex flex-row items-center">
+                          <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
+                            M
+                          </div>
+                          <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                            <div>{message}</div>
                           </div>
                         </div>
-                      );
-                    })}
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
@@ -113,9 +165,7 @@ const Page: React.FC = () => {
                 <div className="relative w-full">
                   <input
                     type="text"
-                    onChange={(e) => {
-                      setMessage(e.target.value);
-                    }}
+                    onChange={(e) => setMessage(e.target.value)}
                     className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
                   />
                   <button className="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600">

@@ -45,3 +45,13 @@ I hosting still aint working. So i focused on ENd to end communication and 1v1 c
 For E2E i will do it some other but i got the idea ready.
 For 1v1 i have done half of it but i just cant concentrate.
 Hope everything works well
+
+### 11/07/2024 21:08
+
+Yesterday I completed 1v1 chat. Didn't get time to log yesterday.
+
+### 12/07/2024 00:49
+
+I have half completed the E2E encryption. I'm having problem in storing publicKey in Redis cache.
+Have to do E2E for group also.
+Referenced from : https://getstream.io/blog/web-crypto-api-chat/

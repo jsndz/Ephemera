@@ -4,6 +4,7 @@ import { Server } from "socket.io";
 import { PORT, STATE } from "./config/serverConfig.js";
 import cors from "cors";
 import { generateRoomId, pub, sub } from "./redis.js";
+import bodyParser from "body-parser";
 
 let siteUrl =
   STATE === "development"
@@ -17,10 +18,47 @@ const corsOptions = {
 
 const app = express();
 app.use(cors(corsOptions));
+app.use(bodyParser.json());
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+app.post("/api/savePublicKey", async (req, res) => {
+  const { userId, publicKeyJwk } = req.body;
+  console.log("us", userId, publicKeyJwk);
 
+  if (!userId || !publicKeyJwk) {
+    return res.status(400).send("Invalid request");
+  } else {
+    // await pub.sadd(`${userId}`, publicKeyJwk);
+    pub.type(userId, async (err, keyType) => {
+      console.log(keyType);
+    });
+    await pub.hset(
+      `${userId}`,
+      "publicKeyJwk",
+      JSON.stringify(publicKeyJwk),
+      (err, reply) => {
+        if (err) {
+          console.error("Error saving public key:", err);
+          return res.status(500).send("Error saving public key");
+        }
+        return res.status(200).send("Public key saved successfully");
+      }
+    );
+  }
+});
+app.get("/api/getPublicKey", async (req, res) => {
+  const { userId } = req.query;
+  if (!userId) {
+    return res.status(400).send("Invalid request");
+  } else {
+    const publicKeyJwk = await pub.hget(`${userId}`, "publicKeyJwk");
+    if (!publicKeyJwk) {
+      return res.status(404).send("Public key not found");
+    }
+    return res.status(200).json({ publicKeyJwk });
+  }
+});
 const server = createServer(app);
 const io = new Server(server, {
   cors: corsOptions,
@@ -87,13 +125,14 @@ io.on("connection", (socket) => {
     socket.emit("getUserId", userId);
     socket.on("disconnect", async () => {
       await pub.srem(`${userId}`, socket.id);
+      await pub.srem(``);
     });
   });
 
   socket.on("message1v1", async ({ recipientId, message }) => {
     console.log(`Message from ${socket.id} to ${recipientId}: ${message}`);
     const recipientSocketId = await pub.smembers(recipientId);
-    console.log(recipientSocketId);
+    console.log(message);
     if (recipientSocketId) {
       io.to(recipientSocketId).emit("messageRecipient", message);
     } else {
