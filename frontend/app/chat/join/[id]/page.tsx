@@ -31,8 +31,6 @@ const Page: React.FC = () => {
     newSocket.emit("joinRoom", id);
 
     newSocket.on("message", (message) => {
-      console.log("message", message);
-
       setInbox((prevInbox) => [...prevInbox, message]);
     });
 

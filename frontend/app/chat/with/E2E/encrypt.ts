@@ -1,3 +1,4 @@
+"use client";
 export default async (text: string, derivedKey: CryptoKey): Promise<string> => {
   const encodedText = new TextEncoder().encode(text);
 

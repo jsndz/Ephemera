@@ -1,3 +1,4 @@
+"use client";
 export default async (text: string, derivedKey: CryptoKey): Promise<string> => {
   try {
     const string = atob(text);

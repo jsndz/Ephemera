@@ -13,6 +13,11 @@
 - ExpressJs
 - Redis(ioredis)
 
+## Technologies
+
+- End to End encryption
+- websockets
+
 ## Hosting
 
 - Vercel

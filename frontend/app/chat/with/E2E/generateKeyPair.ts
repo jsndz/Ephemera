@@ -1,3 +1,4 @@
+"use client";
 export default async () => {
   const keyPair = await window.crypto.subtle.generateKey(
     {

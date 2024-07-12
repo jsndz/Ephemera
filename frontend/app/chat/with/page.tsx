@@ -3,8 +3,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import io, { Socket } from "socket.io-client";
-import decrypt from "./E2E/decrypt";
 import encrypt from "./E2E/encrypt";
+import decrypt from "./E2E/decrypt";
 import deriveKey from "./E2E/deriveKey";
 import generateKeyPair from "./E2E/generateKeyPair";
 
@@ -36,13 +36,16 @@ const Page: React.FC = () => {
     newSocket.on("getUserId", (userId) => {
       setUserId(userId);
     });
-    newSocket.on("messageRecipient", async ({ encryptedMessage, senderId }) => {
-      await handleMessageReception(encryptedMessage, senderId);
-    });
+
     newSocket.on("error", (message: string) => {
       setError(message);
     });
-
+    newSocket?.on(
+      "messageRecipient",
+      async ({ encryptedMessage, senderId }) => {
+        await handleMessageReception(encryptedMessage, senderId);
+      }
+    );
     setSocket(newSocket);
 
     return () => {
@@ -53,7 +56,6 @@ const Page: React.FC = () => {
   }, []);
   const init = async () => {
     const { publicKeyJwk, privateKeyJwk } = await generateKeyPair();
-    console.log(privateKeyJwk, publicKeyJwk);
 
     localStorage.setItem("privateKeyJwk", JSON.stringify(privateKeyJwk));
     await fetch(`${siteUrl}/api/savePublicKey`, {
@@ -81,16 +83,39 @@ const Page: React.FC = () => {
   };
 
   const fetchPublicKey = async (userId: string): Promise<JsonWebKey> => {
-    const response = await fetch(`/api/getPublicKey?userId=${userId}`);
-    const { publicKeyJwk } = await response.json();
-    return publicKeyJwk;
+    try {
+      console.log(userId);
+
+      const response = await fetch(
+        `${siteUrl}/api/getPublicKey?userId=${userId}`
+      );
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.statusText}`);
+      }
+
+      const { publicKeyJwk } = await response.json();
+      console.log("publicKeyJwkw", publicKeyJwk);
+
+      return publicKeyJwk;
+    } catch (error) {
+      console.error("Error fetching public key:", error);
+      throw error;
+    }
   };
 
   const handleMessaging = async () => {
     try {
+      console.log("hi");
+
       const recipientPublicKeyJwk = await fetchPublicKey(recipientId);
+
       const privateKeyJwk = JSON.parse(localStorage.getItem("privateKeyJwk")!);
+
+      // console.log(privateKeyJwk, recipientPublicKeyJwk);
       const sharedKey = await deriveKey(recipientPublicKeyJwk, privateKeyJwk);
+      console.log(sharedKey, message);
+
       const encryptedMessage = await encrypt(message, sharedKey);
       socket?.emit("message1v1", { recipientId, message: encryptedMessage });
     } catch (e) {
@@ -188,7 +213,9 @@ const Page: React.FC = () => {
               </div>
               <div className="ml-4">
                 <button
-                  onClick={handleMessaging}
+                  onClick={() => {
+                    handleMessaging();
+                  }}
                   className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
                 >
                   <span>Send</span>

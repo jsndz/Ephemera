@@ -24,15 +24,9 @@ app.get("/", (req, res) => {
 });
 app.post("/api/savePublicKey", async (req, res) => {
   const { userId, publicKeyJwk } = req.body;
-  console.log("us", userId, publicKeyJwk);
-
   if (!userId || !publicKeyJwk) {
     return res.status(400).send("Invalid request");
   } else {
-    // await pub.sadd(`${userId}`, publicKeyJwk);
-    pub.type(userId, async (err, keyType) => {
-      console.log(keyType);
-    });
     await pub.hset(
       `${userId}`,
       "publicKeyJwk",
@@ -48,15 +42,25 @@ app.post("/api/savePublicKey", async (req, res) => {
   }
 });
 app.get("/api/getPublicKey", async (req, res) => {
-  const { userId } = req.query;
+  const userId = req.query.userId;
+
+  console.log("Received request for userId:", userId);
+
   if (!userId) {
-    return res.status(400).send("Invalid request");
-  } else {
-    const publicKeyJwk = await pub.hget(`${userId}`, "publicKeyJwk");
-    if (!publicKeyJwk) {
-      return res.status(404).send("Public key not found");
+    return res.status(400).json({ error: "Invalid request" });
+  }
+
+  try {
+    const publicKeyJwkString = await pub.hget(`${userId}`, "publicKeyJwk");
+    if (!publicKeyJwkString) {
+      return res.status(404).json({ error: "Public key not found" });
     }
+    const publicKeyJwk = JSON.parse(publicKeyJwkString);
+    console.log("publicKeyJwk", publicKeyJwk);
     return res.status(200).json({ publicKeyJwk });
+  } catch (error) {
+    console.error("Error fetching public key:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 });
 const server = createServer(app);
@@ -77,7 +81,6 @@ sub.on("message", (channel, message) => {
   console.log(`Received message from ${channel}: ${message}`);
 });
 io.on("connection", (socket) => {
-  console.log("A user connected", socket.id);
   socket.on("createRoom", async () => {
     let roomId;
     let roomExists = true;
@@ -91,7 +94,6 @@ io.on("connection", (socket) => {
     socket.emit("getRoomId", roomId);
   });
   socket.on("joinRoom", async (roomId) => {
-    console.log(`Joining room ${roomId}`);
     let roomExists = await pub.sismember("rooms", roomId);
     if (roomExists) {
       socket.join(roomId);
@@ -99,8 +101,6 @@ io.on("connection", (socket) => {
       socket.emit("error", "Invalid Room Id");
     }
     socket.on("message", async (message) => {
-      console.log(message);
-
       await pub.publish("MESSAGES", JSON.stringify({ message }));
 
       io.to(roomId).emit("message", message);
@@ -120,33 +120,34 @@ io.on("connection", (socket) => {
         userExists = true;
       }
     } while (userExists);
-    await pub.sadd(`${userId}`, socket.id);
-    console.log(`User ${userId} registered with socket ID ${socket.id}`);
+    await pub.hset(userId, "socketId", socket.id);
     socket.emit("getUserId", userId);
     socket.on("disconnect", async () => {
-      await pub.srem(`${userId}`, socket.id);
-      await pub.srem(``);
+      await pub.hdel(userId, "socketId");
+      await pub.hdel(userId, "publicKeyJwk");
     });
   });
 
   socket.on("message1v1", async ({ recipientId, message }) => {
-    console.log(`Message from ${socket.id} to ${recipientId}: ${message}`);
-    const recipientSocketId = await pub.smembers(recipientId);
-    console.log(message);
+    console.log(recipientId, message);
+
+    const recipientSocketId = await pub.hget(recipientId, "socketId");
+    console.log(recipientSocketId);
+
     if (recipientSocketId) {
-      io.to(recipientSocketId).emit("messageRecipient", message);
+      io.to(recipientSocketId).emit("messageRecipient", {
+        encryptedMessage: message,
+        senderId: recipientId,
+      });
     } else {
-      console.log(`User ${recipientId} is not connected`);
       socket.emit("error", "Invalid Room Id");
     }
   });
   socket.on("disconnect", async () => {
-    console.log("User disconnected");
     const rooms = await pub.smembers("rooms");
     rooms.forEach(async (roomId) => {
       if (socket.rooms.has(roomId)) {
         await pub.srem("rooms", roomId);
-        console.log(`deleted ${roomId}`);
       }
     });
   });
