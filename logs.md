@@ -55,3 +55,9 @@ Yesterday I completed 1v1 chat. Didn't get time to log yesterday.
 I have half completed the E2E encryption. I'm having problem in storing publicKey in Redis cache.
 Have to do E2E for group also.
 Referenced from : https://getstream.io/blog/web-crypto-api-chat/
+
+### 13/07/2024 23:36
+
+The E2E just didn't work. Like i have no idea. why ?
+I have tried every website and every prompt for chatGPT but i didn't work.
+I spent more than 12 hours. I dont know i will i try again. I will try if i can.
