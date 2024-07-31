@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 import { Providers } from "@/lib/provider";
+import SineWaveBackground from "@/components/Home/BackGround";
 
 export const metadata: Metadata = {
   title: "Create Next App",

@@ -81,6 +81,27 @@ io.on("connection", (socket) => {
             await pub.srem(`${userId}`, socket.id);
         });
     });
+    socket.on("registerP2P", async () => {
+        let userId;
+        let userExists = true;
+        do {
+            userId = generateRoomId();
+            try {
+                let userExistsResult = await pub.sismember(userId, socket.id);
+                userExists = userExistsResult === 1;
+            }
+            catch (err) {
+                console.error(`Error checking user existence`);
+                userExists = true;
+            }
+        } while (userExists);
+        await pub.sadd(`${userId}`, socket.id);
+        console.log(`User ${userId} registered with socket ID ${socket.id}`);
+        socket.emit("getUserIdP2P", userId);
+        socket.on("disconnect", async () => {
+            await pub.srem(`${userId}`, socket.id);
+        });
+    });
     socket.on("message1v1", async ({ recipientId, message }) => {
         console.log(`Message from ${socket.id} to ${recipientId}: ${message}`);
         const recipientSocketId = await pub.smembers(recipientId);

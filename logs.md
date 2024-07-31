@@ -61,3 +61,18 @@ Referenced from : https://getstream.io/blog/web-crypto-api-chat/
 The E2E just didn't work. Like i have no idea. why ?
 I have tried every website and every prompt for chatGPT but i didn't work.
 I spent more than 12 hours. I dont know i will i try again. I will try if i can.
+
+### 14/07/2024 00:58
+
+I think i know why the E2E didn't work, because i just watched a 1 min video of E2E.
+And tried to copy everything. So dont do these just learn the basics.
+I know i may lame but i am tired of e2e so i am gonna do Webrtc.
+But learn webrtc properly. Source : https://github.com/hnasr/javascript_playground/tree/master/webrtc
+
+### 31/07/2024 21:26
+
+After a very long skip. Had exams and had to make a webiste for an event.
+I looked into P2P a bit more. I was planning to do webRTC without any external library.
+But I think i am not that advanced to do it without any library.
+So did it with PeerJs. It is a easy to use library for P2P technology.
+I will be only doing messaging through P2P now. Will work on video call feature later on.
