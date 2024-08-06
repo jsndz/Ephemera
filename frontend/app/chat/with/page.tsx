@@ -42,8 +42,9 @@ const Page: React.FC = () => {
   });
   const handleMessaging = () => {
     socket?.emit("message1v1", { recipientId, message });
+    setInbox((prevInbox) => [...prevInbox, message]);
   };
-  console.log("U", inbox);
+
   return (
     <div>
       <section className="flex justify-center items-center bg-WHITE p-8  ">

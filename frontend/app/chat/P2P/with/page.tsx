@@ -25,7 +25,6 @@ const Page: React.FC = () => {
     newSocket?.emit("registerP2P");
     newSocket?.on("getUserIdP2P", (userId) => {
       setUserId(userId);
-      console.log(userId);
     });
     newSocket?.on("messageRecipient", (message) => {
       console.log("message", message);
