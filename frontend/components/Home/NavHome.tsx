@@ -4,7 +4,7 @@ import Link from "next/link";
 const NavHome = () => {
   return (
     <div>
-      <nav className="relative px-4 py-4 flex justify-between items-center bg-WHITE">
+      <nav className="relative px-4 py-4 flex justify-between items-center ">
         <Link className="text-3xl font-bold leading-none" href="/">
           <Image src="logo.svg" alt="Logo" width={200} height={200} />
         </Link>

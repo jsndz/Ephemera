@@ -1,14 +1,15 @@
 import Image from "next/image";
 import React from "react";
-import Slide from "./Slide";
 import Link from "next/link";
+import Slide from "../Slide";
+// import "./GradientBorderBox.css";
 
 const Hero = () => {
   return (
-    <section>
-      <div className=" text-black ">
-        <div className="container mx-auto flex flex-col md:flex-row items-center  md:mt-24">
-          <div className="flex flex-col w-full lg:w-1/3 justify-center items-start pt-8 ">
+    <section className="p-4">
+      <div className="text-black  ">
+        <div className="container mx-auto flex flex-col md:flex-row items-center md:mt-2">
+          <div className="flex flex-col z-50  p-4 w-full lg:w-1/3 justify-center items-start pt-8">
             <h1 className="text-3xl md:text-5xl p-2 text-red-500 tracking-loose">
               Ephemera
             </h1>
@@ -20,7 +21,6 @@ const Hero = () => {
               Experience secure, login-free, and private meetings with Ephemera.
               Create a room ID and start your private communication instantly.
             </p>
-
             <Link
               href="/chat"
               className="bg-transparent hover:bg-BEIGE text-RED hover:text-ORANGE rounded shadow hover:shadow-lg py-2 px-4 border border-RED hover:border-transparent"
@@ -28,7 +28,7 @@ const Hero = () => {
               Explore Now
             </Link>
           </div>
-          <Slide />
+          <Slide></Slide>
         </div>
       </div>
     </section>

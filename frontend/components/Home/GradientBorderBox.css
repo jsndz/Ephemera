@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway:200");
+
+.font-raleway {
+  font-family: "Raleway", sans-serif;
+}
+
+.gradient-border {
+  --borderWidth: 3px;
+  position: relative;
+  border-radius: var(--borderWidth);
+  padding: 20px; /* Padding for content spacing */
+  /* Ensure the background is white or transparent */
+  overflow: hidden; /* Ensure that content doesn't overflow */
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: var(--borderWidth);
+  background: linear-gradient(
+    60deg,
+    #f79533,
+    #f37055,
+    #ef4e7b,
+    #a166ab,
+    #5073b8,
+    #1098ad,
+    #07b39b,
+    #6fba82
+  );
+  z-index: -1;
+  background-size: 300% 300%;
+  border: var(--borderWidth) solid transparent; /* Border width and color */
+  box-shadow: 0 0 0 var(--borderWidth) inset #fff; /* Ensures border color does not affect content */
+}
