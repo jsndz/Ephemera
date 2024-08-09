@@ -101,7 +101,7 @@ const Foot = () => {
             </div>
           </div>
           <p className="mt-8 text-base leading-6 text-center text-black">
-            © {new Date().getFullYear()}. All rights are not reserved.
+            {/* © {new Date().getFullYear()}. All rights are not reserved. */}
           </p>
         </div>
       </footer>

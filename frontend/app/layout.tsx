@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 import { Providers } from "@/lib/provider";
-import SineWaveBackground from "@/components/Home/BackGround";
+import React from "react";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,7 +19,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         {" "}
-        <Providers>{children}</Providers>
+        <React.StrictMode>
+          <Providers>{children}</Providers>
+        </React.StrictMode>
       </body>{" "}
     </html>
   );

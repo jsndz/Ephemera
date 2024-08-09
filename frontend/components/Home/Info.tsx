@@ -3,7 +3,7 @@ import React from "react";
 import "./GradientBorderBox.css";
 const Info = () => {
   return (
-    <section>
+    <div>
       <div className="mx-auto max-w-screen-xl p-4 rounded-lg  overflow-hidden lg:flex lg:items-center">
         <div className="relative mx-auto max-w-xl text-center p-10 bg-white   rounded-lg ">
           <h1 className="text-3xl font-extrabold sm:text-5xl">
@@ -33,7 +33,7 @@ const Info = () => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
