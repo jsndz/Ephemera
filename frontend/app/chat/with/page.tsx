@@ -24,10 +24,8 @@ const Page: React.FC = () => {
     newSocket?.emit("register");
     newSocket?.on("getUserId", (userId) => {
       setUserId(userId);
-      console.log(userId);
     });
     newSocket?.on("messageRecipient", (message) => {
-      console.log("message", message);
       setInbox((prevInbox) => [...prevInbox, message]);
     });
     setSocket(newSocket);

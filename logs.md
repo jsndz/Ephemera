@@ -76,3 +76,8 @@ I looked into P2P a bit more. I was planning to do webRTC without any external l
 But I think i am not that advanced to do it without any library.
 So did it with PeerJs. It is a easy to use library for P2P technology.
 I will be only doing messaging through P2P now. Will work on video call feature later on.
+
+### 15/08/2024 11:00
+
+Its finally hosted and its working fine.
+Finally.

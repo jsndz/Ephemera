@@ -53,7 +53,6 @@ app.get("/api/getPublicKey", async (req, res) => {
   try {
     const publicKeyJwkString = await pub.hget(`${userId}`, "publicKeyJwk");
     if (!publicKeyJwkString) {
-      console.log("hello");
       return res.status(404).json({ error: "Public key not found" });
     }
     const publicKeyJwk = JSON.parse(publicKeyJwkString);

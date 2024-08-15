@@ -28,7 +28,6 @@ const Page: React.FC = () => {
       setUserId(userId);
     });
     newSocket?.on("messageRecipient", (message) => {
-      console.log("message", message);
       setInbox((prevInbox) => [...prevInbox, message]);
     });
 
