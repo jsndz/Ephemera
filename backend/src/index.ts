@@ -8,6 +8,7 @@ let siteUrl =
   STATE === "development"
     ? "http://localhost:3001"
     : "https://ephemera-rho.vercel.app";
+console.log(siteUrl);
 
 const corsOptions = {
   origin: siteUrl,
