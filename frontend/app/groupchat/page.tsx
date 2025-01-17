@@ -19,7 +19,7 @@ const Page: React.FC = () => {
   const [message, setMessage] = useState<string>("");
   const [recipientId, setRecipientId] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-
+  const [isHost, setIsHost] = useState<boolean>(false);
   useEffect(() => {
     const newSocket = io(siteUrl);
 
@@ -57,8 +57,9 @@ const Page: React.FC = () => {
   useEffect(() => {
     if (peer && recipientId) {
       const conn = peer.connect(recipientId);
+
       conn.on("open", () => {
-        conn.send("hi!");
+        conn.send(`${userId}`);
       });
     }
   }, [peer, recipientId]);
@@ -89,15 +90,29 @@ const Page: React.FC = () => {
         <h1 className="text-3xl  text-[#EA3A36] mb-6">
           Your Id: {`${userId}`}
         </h1>
+        <button
+          onClick={() => {
+            setIsHost(true);
+          }}
+        >
+          be the host
+        </button>
+        {isHost ? (
+          <div>Allow others to connect using your Peer ID.</div>
+        ) : (
+          <div></div>
+        )}
         <p className="text-lg mb-6 text-[#EA3A36]">
           Enter the Peer ID to start messaging.
         </p>
-        <input
-          type="text"
-          placeholder="Enter Peer ID"
-          className="w-full mb-4 p-2 rounded-md border-2 border-[#EA3A36] focus:border-[#F27D2C] bg-[#E8E7D5]"
-          onChange={(e) => setRecipientId(e.target.value)}
-        />
+        {!isHost && (
+          <input
+            type="text"
+            placeholder="Enter Peer ID"
+            className="w-full mb-4 p-2 rounded-md border-2 border-[#EA3A36] focus:border-[#F27D2C] bg-[#E8E7D5]"
+            onChange={(e) => setRecipientId(e.target.value)}
+          />
+        )}
         <div className="flex flex-col h-96 bg-[#E8E7D5] rounded-lg p-4 overflow-y-auto">
           <div className="flex flex-col h-full">
             {error ? (
